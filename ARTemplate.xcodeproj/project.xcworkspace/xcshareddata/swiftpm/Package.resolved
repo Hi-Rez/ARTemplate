@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Forge",
+        "repositoryURL": "https://github.com/Hi-Rez/Forge",
+        "state": {
+          "branch": "master",
+          "revision": "85a8c6965160a37833fb4c9446b38c8710aab2f0",
+          "version": null
+        }
+      },
+      {
+        "package": "Satin",
+        "repositoryURL": "https://github.com/Hi-Rez/Satin",
+        "state": {
+          "branch": "master",
+          "revision": "dc4ca512b570cf5095fc5c5c540307fa7c14aa42",
+          "version": null
+        }
+      },
+      {
+        "package": "Youi",
+        "repositoryURL": "https://github.com/Hi-Rez/Youi",
+        "state": {
+          "branch": "master",
+          "revision": "4fd3afa5cafb6dd3c8713c5fcd4579e14e2cfc7d",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
