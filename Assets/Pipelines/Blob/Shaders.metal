@@ -41,9 +41,7 @@ vertex CustomVertexData blobVertex(Vertex in [[stage_in]],
     return out;
 }
 
-fragment float4 blobFragment(CustomVertexData in [[stage_in]],
-                             constant BlobUniforms &blob
+fragment float4 blobFragment(CustomVertexData in [[stage_in]], constant BlobUniforms &blob
                              [[buffer(FragmentBufferMaterialUniforms)]]) {
-    return blob.color *
-           float4(iridescence(in.offset * blob.colorScale + blob.colorOffset), 1.0);
+    return blob.color * float4(iridescence(in.offset * blob.colorScale + blob.colorOffset), 1.0);
 }

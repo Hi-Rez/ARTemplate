@@ -35,8 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.window = window
         
-        self.viewController = Forge.ViewController(renderer: Renderer())
-        guard let view = self.viewController?.view else { return }
+        viewController = Forge.ViewController(renderer: Renderer())
+        guard let view = viewController?.view else { return }
         
         guard let contentView = window.contentView else { return }
         
@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(_ notification: Notification) {
-        self.viewController = nil
+        viewController = nil
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -84,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func saveResourcesAssets() {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         renderer.save()
         if let bookmarkDataString = UserDefaults.standard.string(forKey: "ResourcesAssetsPathBookmark"), let bookmarkData = Data(base64Encoded: bookmarkDataString) {
             var isStale: Bool = false
@@ -101,7 +101,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Toggle Inspector
 
     @IBAction func toggleInspector(_ sender: NSMenuItem) {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         renderer.toggleInspector()
     }
 
@@ -110,7 +110,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func savePreset(_ sender: NSMenuItem) {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         let msg = NSAlert()
         msg.addButton(withTitle: "OK") // 1st button
         msg.addButton(withTitle: "Cancel") // 2nd button
@@ -133,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func savePresetAs(_ sender: NSMenuItem) {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         let savePanel = NSSavePanel()
         savePanel.canCreateDirectories = true
         savePanel.showsTagField = false
@@ -142,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if result == .OK, let url = savePanel.url {
                 if fileExists(url) {
                     removeFile(url)
-                    let _ = createDirectory(url)
+                    _ = createDirectory(url)
                 }
                 renderer.save(url)
             }
@@ -187,7 +187,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func loadPreset(_ sender: NSMenuItem) {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         renderer.loadPreset(sender.title)
                     
         guard let menu = presetsMenu else { return }
@@ -198,7 +198,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func openPreset(_ sender: NSMenuItem) {
-        guard let viewController = self.viewController, let renderer = viewController.renderer as? Renderer else { return }
+        guard let viewController = viewController, let renderer = viewController.renderer as? Renderer else { return }
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
@@ -211,7 +211,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             openPanel.close()
         })
     }
-    
     
     // MARK: - Editor
     
@@ -278,4 +277,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return false
     }
 }
-

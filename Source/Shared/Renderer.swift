@@ -21,6 +21,7 @@ class Renderer: Forge.Renderer {
     class VideoMaterial: LiveMaterial {}
     
     // MARK: - AR
+
 #if os(iOS)
     var session: ARSession?
     var configuration: ARConfiguration {
@@ -41,8 +42,7 @@ class Renderer: Forge.Renderer {
     var viewportSize = CGSize(width: 0, height: 0)
     var _updateBackgroundGeometry = true
 
-    
-    //MARK: - Background Video Renderer
+    // MARK: - Background Video Renderer
     
     lazy var videoMesh: Mesh = {
         let mesh = Mesh(geometry: QuadGeometry(), material: VideoMaterial(pipelinesURL: pipelinesURL))
@@ -136,7 +136,9 @@ class Renderer: Forge.Renderer {
         
     lazy var bgColorParam: Float4Parameter = {
         Float4Parameter("Background", [1, 1, 1, 1], .colorpicker) { [unowned self] value in
-            renderer.setClearColor(value)
+#if os(macOS)
+            self.renderer.setClearColor(value)
+#endif
         }
     }()
     
@@ -146,7 +148,7 @@ class Renderer: Forge.Renderer {
         return params
     }()
     
-    //MARK: - 3D
+    // MARK: - 3D
     
     var blobGeo = IcoSphereGeometry(radius: 0.25, res: 5)
     lazy var blobMesh: Mesh = {
@@ -157,9 +159,13 @@ class Renderer: Forge.Renderer {
         return mesh
     }()
     
+    lazy var blobMeshContainer: Object = {
+        Object("Blob Mesh Container", [blobMesh])
+    }()
+    
     lazy var scene: Object = {
         let scene = Object()
-        scene.add(blobMesh)
+        scene.add(blobMeshContainer)
         return scene
     }()
     
@@ -175,20 +181,18 @@ class Renderer: Forge.Renderer {
         return camera
     }()
     
-    #if os(macOS)
+#if os(macOS)
     lazy var cameraController: PerspectiveCameraController = {
         PerspectiveCameraController(camera: camera, view: mtkView)
     }()
-    #endif
+#endif
     
     lazy var renderer: Satin.Renderer = {
         let renderer = Satin.Renderer(context: context, scene: scene, camera: camera)
-        #if os(iOS)
+#if os(iOS)
         renderer.colorLoadAction = .load
         renderer.setClearColor([0, 0, 0, 0])
-        #elseif os(macOS)
-        renderer.setClearColor(bgColorParam.value)
-        #endif
+#endif
         return renderer
     }()
     
@@ -202,21 +206,21 @@ class Renderer: Forge.Renderer {
         metalKitView.preferredFramesPerSecond = 120
     }
     
-    //MARK: - Setup
+    // MARK: - Setup
         
     override func setup() {
         load()
         
-        #if os(iOS)
+#if os(iOS)
         scene.visible = false
         
         checkARCapabilities()
         setupBackgroundTextureCache()
         setupARSession()
-        #endif
+#endif
     }
     
-    //MARK: - Deinit
+    // MARK: - Deinit
     
     deinit {
         save()
@@ -225,20 +229,20 @@ class Renderer: Forge.Renderer {
 #endif
     }
 
-    //MARK: - Update
+    // MARK: - Update
     
     override func update() {
         blobMaterial.set("Time", getTime())
         updateInspector()
         
-        #if os(iOS)
+#if os(iOS)
         updateAR()
-        #elseif os(macOS)
+#elseif os(macOS)
         cameraController.update()
-        #endif
+#endif
     }
     
-    //MARK: - Draw
+    // MARK: - Draw
     
     override func draw(_ view: MTKView, _ commandBuffer: MTLCommandBuffer) {
         guard let renderPassDescriptor = view.currentRenderPassDescriptor else { return }
@@ -248,7 +252,7 @@ class Renderer: Forge.Renderer {
         renderer.draw(renderPassDescriptor: renderPassDescriptor, commandBuffer: commandBuffer)
     }
     
-    //MARK: - Resize
+    // MARK: - Resize
     
     override func resize(_ size: (width: Float, height: Float)) {
         camera.aspect = size.width / size.height
@@ -261,32 +265,39 @@ class Renderer: Forge.Renderer {
 #endif
     }
     
-    //MARK: - Touches
+    // MARK: - Touches
     
 #if os(iOS)
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touches.count == 1, let session = session, let first = touches.first {
             let ray = Ray(camera, normalizePoint(first.location(in: mtkView), mtkView.frame.size))
             let results = session.raycast(ARRaycastQuery(origin: ray.origin, direction: ray.direction, allowing: .existingPlaneGeometry, alignment: .horizontal))
-            if let plane = results.first {
-                scene.localMatrix = plane.worldTransform
+            if let hit = results.first {
+                let originAnchor = ARAnchor(transform: matrix_identity_float4x4)
+                blobMeshContainer.localMatrix = hit.worldTransform
+                
                 scene.visible = true
+                scene.onUpdate = { [unowned self] in
+                    scene.localMatrix = originAnchor.transform
+                }
+                
+                session.add(anchor: originAnchor)
             }
         }
     }
 #endif
     
-    //MARK: - Helpers
+    // MARK: - Helpers
     
     func getTime() -> Float {
         return Float(CFAbsoluteTimeGetCurrent() - startTime)
     }
     
     func normalizePoint(_ point: CGPoint, _ size: CGSize) -> simd_float2 {
-        #if os(macOS)
+#if os(macOS)
         return 2.0 * simd_make_float2(Float(point.x / size.width), Float(point.y / size.height)) - 1.0
-        #else
+#else
         return 2.0 * simd_make_float2(Float(point.x / size.width), 1.0 - Float(point.y / size.height)) - 1.0
-        #endif
+#endif
     }
 }

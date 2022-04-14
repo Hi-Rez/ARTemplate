@@ -13,8 +13,7 @@ extension Renderer {
     func openEditor() {
         if let editorURL = UserDefaults.standard.url(forKey: "Editor") {
             openEditor(at: editorURL)
-        }
-        else {
+        } else {
             let openPanel = NSOpenPanel()
             openPanel.canChooseFiles = true
             openPanel.allowsMultipleSelection = false
@@ -33,7 +32,7 @@ extension Renderer {
 
     func openEditor(at editorURL: URL) {
         do {
-            try NSWorkspace.shared.open([self.assetsURL], withApplicationAt: editorURL, options: [], configuration: [:])
+            try NSWorkspace.shared.open([assetsURL], withApplicationAt: editorURL, options: [], configuration: [:])
         } catch {
             print(error)
         }

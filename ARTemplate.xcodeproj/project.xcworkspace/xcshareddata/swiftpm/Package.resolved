@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/Hi-Rez/Forge",
         "state": {
           "branch": "master",
-          "revision": "85a8c6965160a37833fb4c9446b38c8710aab2f0",
+          "revision": "50407c40b433cf6eed786dc497b53916203f24bd",
           "version": null
         }
       },
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/Hi-Rez/Satin",
         "state": {
           "branch": "master",
-          "revision": "09e1e124afb7ba8813ba9a95d53adacb4d42369d",
+          "revision": "b642b342a192a56f791c45f32b2105a1838b6fb3",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/Hi-Rez/Youi",
         "state": {
           "branch": "master",
-          "revision": "4fd3afa5cafb6dd3c8713c5fcd4579e14e2cfc7d",
+          "revision": "6dfaa8576499fe8efde3c0c45bf2141f42af7091",
           "version": null
         }
       }

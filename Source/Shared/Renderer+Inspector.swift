@@ -14,7 +14,7 @@ import Youi
 extension Renderer {
     func setupInspector() {
         var panelOpenStates: [String: Bool] = [:]
-        if let inspectorWindow = self.inspectorWindow, let inspector = inspectorWindow.inspectorViewController {
+        if let inspectorWindow = inspectorWindow, let inspector = inspectorWindow.inspectorViewController {
             let panels = inspector.getPanels()
             for panel in panels {
                 if let label = panel.title {
@@ -34,7 +34,7 @@ extension Renderer {
             self.inspectorWindow = inspectorWindow
         }
         
-        if let inspectorWindow = self.inspectorWindow, let inspectorViewController = inspectorWindow.inspectorViewController {
+        if let inspectorWindow = inspectorWindow, let inspectorViewController = inspectorWindow.inspectorViewController {
             if inspectorViewController.getPanels().count > 0 {
                 inspectorViewController.removeAllPanels()
             }
@@ -72,9 +72,8 @@ extension Renderer {
     }
     
     #if os(macOS)
-    public func toggleInspector()
-    {
-        if let inspectorWindow = self.inspectorWindow {
+    public func toggleInspector() {
+        if let inspectorWindow = inspectorWindow {
             inspectorWindow.setIsVisible(!inspectorWindow.isVisible)
         }
     }

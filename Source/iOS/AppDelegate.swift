@@ -6,8 +6,8 @@
 //  Copyright © 2019 Reza Ali. All rights reserved.
 //
 
-import UIKit
 import Forge
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,12 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var viewController: Forge.ViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         copyResourcesAssetsToDocumentsAssets()
-        
+
         let viewController = Forge.ViewController(renderer: Renderer())
         self.viewController = viewController
-        
+
         guard let view = self.viewController?.view else { return false }
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
