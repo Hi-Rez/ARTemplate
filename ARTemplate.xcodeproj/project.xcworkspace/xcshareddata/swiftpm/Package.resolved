@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Forge",
-        "repositoryURL": "https://github.com/Hi-Rez/Forge",
-        "state": {
-          "branch": "master",
-          "revision": "50407c40b433cf6eed786dc497b53916203f24bd",
-          "version": null
-        }
-      },
-      {
-        "package": "Satin",
-        "repositoryURL": "https://github.com/Hi-Rez/Satin",
-        "state": {
-          "branch": "master",
-          "revision": "b642b342a192a56f791c45f32b2105a1838b6fb3",
-          "version": null
-        }
-      },
-      {
-        "package": "Youi",
-        "repositoryURL": "https://github.com/Hi-Rez/Youi",
-        "state": {
-          "branch": "master",
-          "revision": "6dfaa8576499fe8efde3c0c45bf2141f42af7091",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "forge",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Hi-Rez/Forge",
+      "state" : {
+        "branch" : "master",
+        "revision" : "50407c40b433cf6eed786dc497b53916203f24bd"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "satin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Hi-Rez/Satin",
+      "state" : {
+        "branch" : "master",
+        "revision" : "37806bfe5691024fa6ae9c6a5036ea70f4062ad1"
+      }
+    },
+    {
+      "identity" : "youi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Hi-Rez/Youi",
+      "state" : {
+        "branch" : "master",
+        "revision" : "6dfaa8576499fe8efde3c0c45bf2141f42af7091"
+      }
+    }
+  ],
+  "version" : 2
 }
