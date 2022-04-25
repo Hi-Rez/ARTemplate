@@ -15,7 +15,7 @@
       "location" : "https://github.com/Hi-Rez/Satin",
       "state" : {
         "branch" : "master",
-        "revision" : "37806bfe5691024fa6ae9c6a5036ea70f4062ad1"
+        "revision" : "c29677b9e7217c66511998fff10b72a00204f76a"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/Hi-Rez/Youi",
       "state" : {
         "branch" : "master",
-        "revision" : "6dfaa8576499fe8efde3c0c45bf2141f42af7091"
+        "revision" : "8661b8f925d7af173fac62be51f88148d5c00d60"
       }
     }
   ],

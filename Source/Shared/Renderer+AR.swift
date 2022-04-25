@@ -58,7 +58,7 @@ extension Renderer {
         updateCamera(frame: frame)
         updateBackground(frame: frame)
         scene.visible = true
-        backgroundScene.visible = true
+        videoMesh.visible = true
     }
         
     func setupBackgroundTextureCache() {

@@ -29,7 +29,7 @@ extension Renderer {
         loadParameters(url.appendingPathComponent("Parameters"))
     }
     
-    internal func saveParameters(_ url: URL) {
+    func saveParameters(_ url: URL) {
         for (key, param) in params {
             if let p = param {
                 p.save(url.appendingPathComponent(key + ".json"))
@@ -37,7 +37,7 @@ extension Renderer {
         }
     }
     
-    internal func loadParameters(_ url: URL) {
+    func loadParameters(_ url: URL) {
         for (key, param) in params {
             if let p = param {
                 p.load(url.appendingPathComponent(key + ".json"), append: false)

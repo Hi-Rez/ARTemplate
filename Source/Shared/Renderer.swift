@@ -5,10 +5,12 @@
 //  Created by Reza Ali on 3/31/22.
 //  Copyright © 2022 Reza Ali. All rights reserved.
 //
+
 #if os(iOS)
 import ARKit
 #endif
 
+import Combine
 import Metal
 import MetalKit
 
@@ -20,6 +22,56 @@ class Renderer: Forge.Renderer {
     class BlobMaterial: LiveMaterial {}
     class VideoMaterial: LiveMaterial {}
     
+    // MARK: - Paths
+
+    var assetsURL: URL { getDocumentsAssetsDirectoryURL() }
+    var mediaURL: URL { getDocumentsMediaDirectoryURL() }
+    var modelsURL: URL { getDocumentsMediaDirectoryURL() }
+    var parametersURL: URL { getDocumentsParametersDirectoryURL() }
+    var pipelinesURL: URL { getDocumentsPipelinesDirectoryURL() }
+    var presetsURL: URL { getDocumentsPresetsDirectoryURL() }
+    var settingsFolderURL: URL { getDocumentsSettingsDirectoryURL() }
+    var texturesURL: URL { getDocumentsTexturesDirectoryURL() }
+    var dataURL: URL { getDocumentsDataDirectoryURL() }
+    
+    // MARK: - Parameters
+    
+    var paramKeys: [String] {
+        return ["Controls", "Blob Material"]
+    }
+    
+    var params: [String: ParameterGroup?] {
+        return [
+            "Controls": appParams,
+            "Blob Material": blobMaterial.parameters,
+        ]
+    }
+    
+    // MARK: - UI
+    
+    var inspectorWindow: InspectorWindow?
+    var _updateInspector: Bool = true
+    
+    var cancellables = Set<AnyCancellable>()
+    var bgColorParam = Float4Parameter("Background", [1, 1, 1, 1], .colorpicker)
+    var appParams = ParameterGroup("Controls")
+    
+    // MARK: - 3D
+    
+    var blobMaterial: BlobMaterial!
+    var blobMesh: Mesh!
+    var blobMeshContainer = Object("Blob Mesh Container")
+    
+    var scene = Object("Scene")
+    var context: Context!
+    var camera = PerspectiveCamera(position: simd_make_float3(0.0, 0.0, 3.0), near: 0.01, far: 100.0)
+        
+#if os(macOS)
+    var cameraController: PerspectiveCameraController!
+#endif
+    
+    var renderer: Satin.Renderer!
+        
     // MARK: - AR
 
 #if os(iOS)
@@ -44,157 +96,10 @@ class Renderer: Forge.Renderer {
 
     // MARK: - Background Video Renderer
     
-    lazy var videoMesh: Mesh = {
-        let mesh = Mesh(geometry: QuadGeometry(), material: VideoMaterial(pipelinesURL: pipelinesURL))
-        mesh.preDraw = { [unowned self] renderEncoder in
-            guard let textureY = self.capturedImageTextureY, let textureCbCr = self.capturedImageTextureCbCr else { return }
-            renderEncoder.setFragmentTexture(CVMetalTextureGetTexture(textureY), index: FragmentTextureIndex.Custom0.rawValue)
-            renderEncoder.setFragmentTexture(CVMetalTextureGetTexture(textureCbCr), index: FragmentTextureIndex.Custom1.rawValue)
-        }
-        mesh.label = "Video Mesh"
-        return mesh
-    }()
-    
-    lazy var backgroundScene: Object = {
-        var scene = Object("Background", [videoMesh])
-        scene.visible = false
-        return scene
-    }()
-    
-    lazy var backgroundRenderer: Satin.Renderer = {
-        let renderer = Satin.Renderer(context: Context(device, 1, context.colorPixelFormat), scene: backgroundScene, camera: OrthographicCamera())
-        renderer.label = "Background Renderer"
-        return renderer
-    }()
+    var videoMesh: Mesh!
+    var backgroundRenderer: Satin.Renderer!
     
 #endif
-
-    // MARK: - Paths
-
-    var assetsURL: URL {
-        getDocumentsAssetsDirectoryURL()
-    }
-    
-    var mediaURL: URL {
-        getDocumentsMediaDirectoryURL()
-    }
-    
-    var modelsURL: URL {
-        getDocumentsMediaDirectoryURL()
-    }
-    
-    var parametersURL: URL {
-        getDocumentsParametersDirectoryURL()
-    }
-    
-    var pipelinesURL: URL {
-        getDocumentsPipelinesDirectoryURL()
-    }
-    
-    var presetsURL: URL {
-        getDocumentsPresetsDirectoryURL()
-    }
-    
-    var settingsFolderURL: URL {
-        getDocumentsSettingsDirectoryURL()
-    }
-    
-    var texturesURL: URL {
-        getDocumentsTexturesDirectoryURL()
-    }
-    
-    var dataURL: URL {
-        getDocumentsDataDirectoryURL()
-    }
-    
-    // MARK: - Parameters
-    
-    var paramKeys: [String] {
-        return [
-            "Controls",
-            "Blob Material",
-        ]
-    }
-    
-    var params: [String: ParameterGroup?] {
-        return [
-            "Controls": appParams,
-            "Blob Material": blobMaterial.parameters,
-        ]
-    }
-    
-    // MARK: - UI
-    
-    var inspectorWindow: InspectorWindow?
-    var _updateInspector: Bool = true
-    
-    lazy var blobMaterial: BlobMaterial = {
-        let material = BlobMaterial(pipelinesURL: pipelinesURL)
-        material.delegate = self
-        return material
-    }()
-        
-    lazy var bgColorParam: Float4Parameter = {
-        Float4Parameter("Background", [1, 1, 1, 1], .colorpicker) { [unowned self] value in
-#if os(macOS)
-            self.renderer.setClearColor(value)
-#endif
-        }
-    }()
-    
-    lazy var appParams: ParameterGroup = {
-        let params = ParameterGroup("Controls")
-        params.append(bgColorParam)
-        return params
-    }()
-    
-    // MARK: - 3D
-    
-    var blobGeo = IcoSphereGeometry(radius: 0.25, res: 5)
-    lazy var blobMesh: Mesh = {
-        let mesh = Mesh(geometry: blobGeo, material: blobMaterial)
-        mesh.label = "Blob"
-        let bounds = mesh.localBounds
-        mesh.position = .init(0.0, bounds.size.y, 0.0)
-        return mesh
-    }()
-    
-    lazy var blobMeshContainer: Object = {
-        Object("Blob Mesh Container", [blobMesh])
-    }()
-    
-    lazy var scene: Object = {
-        let scene = Object()
-        scene.add(blobMeshContainer)
-        return scene
-    }()
-    
-    lazy var context: Context = {
-        Context(device, sampleCount, colorPixelFormat, depthPixelFormat, stencilPixelFormat)
-    }()
-    
-    lazy var camera: PerspectiveCamera = {
-        let camera = PerspectiveCamera()
-        camera.position = simd_make_float3(0.0, 0.0, 3.0)
-        camera.near = 0.01
-        camera.far = 100.0
-        return camera
-    }()
-    
-#if os(macOS)
-    lazy var cameraController: PerspectiveCameraController = {
-        PerspectiveCameraController(camera: camera, view: mtkView)
-    }()
-#endif
-    
-    lazy var renderer: Satin.Renderer = {
-        let renderer = Satin.Renderer(context: context, scene: scene, camera: camera)
-#if os(iOS)
-        renderer.colorLoadAction = .load
-        renderer.setClearColor([0, 0, 0, 0])
-#endif
-        return renderer
-    }()
     
     lazy var startTime: CFAbsoluteTime = {
         CFAbsoluteTimeGetCurrent()
@@ -209,15 +114,84 @@ class Renderer: Forge.Renderer {
     // MARK: - Setup
         
     override func setup() {
-        load()
+        setupContext()
+#if os(macOS)
+        setupCameraController()
+#endif
+        setupScene()
+        setupRenderer()
+        setupParameters()
         
 #if os(iOS)
-        scene.visible = false
         
+        setupBackgroundScene()
+        setupBackgroundRenderer()
+        
+        scene.visible = false
         checkARCapabilities()
         setupBackgroundTextureCache()
         setupARSession()
 #endif
+        load()
+    }
+    
+    func setupContext() {
+        context = Context(device, sampleCount, colorPixelFormat, depthPixelFormat, stencilPixelFormat)
+    }
+    
+#if os(macOS)
+    func setupCameraController() {
+        cameraController = PerspectiveCameraController(camera: camera, view: mtkView)
+    }
+#endif
+    
+    func setupScene() {
+        blobMaterial = BlobMaterial(pipelinesURL: pipelinesURL)
+        blobMaterial.delegate = self
+
+        blobMesh = Mesh(geometry: IcoSphereGeometry(radius: 0.25, res: 5), material: blobMaterial)
+        blobMesh.label = "Blob"
+        blobMesh.position = .init(0.0, blobMesh.localBounds.size.y, 0.0)
+        
+        blobMeshContainer.add(blobMesh)
+        scene.add(blobMeshContainer)
+    }
+    
+    func setupRenderer() {
+        renderer = Satin.Renderer(context: context, scene: scene, camera: camera)
+#if os(iOS)
+        renderer.colorLoadAction = .load
+        renderer.setClearColor([0, 0, 0, 0])
+#endif
+    }
+    
+    func setupParameters() {
+        appParams.append(bgColorParam)
+    }
+    
+    func setupObservers() {
+        bgColorParam.$value.sink { [weak self] value in
+            guard let self = self else { return }
+#if os(macOS)
+            self.renderer.setClearColor(value)
+#endif
+        }.store(in: &cancellables)
+    }
+    
+    func setupBackgroundScene() {
+        videoMesh = Mesh(geometry: QuadGeometry(), material: VideoMaterial(pipelinesURL: pipelinesURL))
+        videoMesh.preDraw = { [unowned self] renderEncoder in
+            guard let textureY = self.capturedImageTextureY, let textureCbCr = self.capturedImageTextureCbCr else { return }
+            renderEncoder.setFragmentTexture(CVMetalTextureGetTexture(textureY), index: FragmentTextureIndex.Custom0.rawValue)
+            renderEncoder.setFragmentTexture(CVMetalTextureGetTexture(textureCbCr), index: FragmentTextureIndex.Custom1.rawValue)
+        }
+        videoMesh.label = "Video Mesh"
+        videoMesh.visible = false
+    }
+    
+    func setupBackgroundRenderer() {
+        backgroundRenderer = Satin.Renderer(context: Context(device, 1, context.colorPixelFormat), scene: videoMesh, camera: OrthographicCamera())
+        backgroundRenderer.label = "Background Renderer"
     }
     
     // MARK: - Deinit
