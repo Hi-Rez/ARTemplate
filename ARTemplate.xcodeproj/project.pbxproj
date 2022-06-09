@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E10DA08727F6528200954442 /* Forge in Frameworks */ = {isa = PBXBuildFile; productRef = E10DA08627F6528200954442 /* Forge */; };
-		E10DA08D27F652B400954442 /* Youi in Frameworks */ = {isa = PBXBuildFile; productRef = E10DA08C27F652B400954442 /* Youi */; };
-		E10DA08F27F652C600954442 /* Forge in Frameworks */ = {isa = PBXBuildFile; productRef = E10DA08E27F652C600954442 /* Forge */; };
-		E10DA09327F652C600954442 /* Youi in Frameworks */ = {isa = PBXBuildFile; productRef = E10DA09227F652C600954442 /* Youi */; };
+		E11E89D22852BC2B0045FD2B /* Satin in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89D12852BC2B0045FD2B /* Satin */; };
+		E11E89D52852BC6A0045FD2B /* Forge in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89D42852BC690045FD2B /* Forge */; };
+		E11E89D82852BC9F0045FD2B /* Youi in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89D72852BC9F0045FD2B /* Youi */; };
+		E11E89DA2852BD1C0045FD2B /* Satin in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89D92852BD1C0045FD2B /* Satin */; };
+		E11E89DC2852BD1C0045FD2B /* Forge in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89DB2852BD1C0045FD2B /* Forge */; };
+		E11E89DE2852BD1C0045FD2B /* Youi in Frameworks */ = {isa = PBXBuildFile; productRef = E11E89DD2852BD1C0045FD2B /* Youi */; };
 		E1365D1326CD912200BAFF71 /* Renderer+Save+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1365D1226CD912200BAFF71 /* Renderer+Save+Load.swift */; };
 		E1365D1426CD912200BAFF71 /* Renderer+Save+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1365D1226CD912200BAFF71 /* Renderer+Save+Load.swift */; };
 		E1365D1826CD919A00BAFF71 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1365D1726CD919A00BAFF71 /* Paths.swift */; };
@@ -29,7 +31,6 @@
 		E1921A2327F657DD00107E3F /* Renderer+ARSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1921A2227F657DD00107E3F /* Renderer+ARSession.swift */; };
 		E1921A2527F65E3D00107E3F /* Renderer+Materials.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1921A2427F65E3D00107E3F /* Renderer+Materials.swift */; };
 		E1921A2627F661CF00107E3F /* Renderer+Materials.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1921A2427F65E3D00107E3F /* Renderer+Materials.swift */; };
-		E1921A2B27F66FCC00107E3F /* Satin in Frameworks */ = {isa = PBXBuildFile; productRef = E1921A2A27F66FCC00107E3F /* Satin */; };
 		E1C45ADE243E6351007D0207 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1C45ADD243E6351007D0207 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
@@ -62,8 +63,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E10DA08F27F652C600954442 /* Forge in Frameworks */,
-				E10DA09327F652C600954442 /* Youi in Frameworks */,
+				E11E89DC2852BD1C0045FD2B /* Forge in Frameworks */,
+				E11E89DA2852BD1C0045FD2B /* Satin in Frameworks */,
+				E11E89DE2852BD1C0045FD2B /* Youi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,9 +73,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1921A2B27F66FCC00107E3F /* Satin in Frameworks */,
-				E10DA08727F6528200954442 /* Forge in Frameworks */,
-				E10DA08D27F652B400954442 /* Youi in Frameworks */,
+				E11E89D52852BC6A0045FD2B /* Forge in Frameworks */,
+				E11E89D22852BC2B0045FD2B /* Satin in Frameworks */,
+				E11E89D82852BC9F0045FD2B /* Youi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,8 +182,9 @@
 			);
 			name = "ARTemplate iOS";
 			packageProductDependencies = (
-				E10DA08E27F652C600954442 /* Forge */,
-				E10DA09227F652C600954442 /* Youi */,
+				E11E89D92852BD1C0045FD2B /* Satin */,
+				E11E89DB2852BD1C0045FD2B /* Forge */,
+				E11E89DD2852BD1C0045FD2B /* Youi */,
 			);
 			productName = "Example iOS";
 			productReference = E13B5561230F3D44009E143D /* ARTemplate.app */;
@@ -201,9 +204,9 @@
 			);
 			name = "ARTemplate macOS";
 			packageProductDependencies = (
-				E10DA08627F6528200954442 /* Forge */,
-				E10DA08C27F652B400954442 /* Youi */,
-				E1921A2A27F66FCC00107E3F /* Satin */,
+				E11E89D12852BC2B0045FD2B /* Satin */,
+				E11E89D42852BC690045FD2B /* Forge */,
+				E11E89D72852BC9F0045FD2B /* Youi */,
 			);
 			productName = "Example macOS";
 			productReference = E13B5584230F3D44009E143D /* ARTemplate.app */;
@@ -237,9 +240,9 @@
 			);
 			mainGroup = E13B5553230F3D41009E143D;
 			packageReferences = (
-				E10DA08527F6528200954442 /* XCRemoteSwiftPackageReference "Forge" */,
-				E10DA08B27F652B400954442 /* XCRemoteSwiftPackageReference "Youi" */,
-				E1921A2927F66FCC00107E3F /* XCRemoteSwiftPackageReference "Satin" */,
+				E11E89D02852BC2B0045FD2B /* XCRemoteSwiftPackageReference "Satin" */,
+				E11E89D32852BC690045FD2B /* XCRemoteSwiftPackageReference "Forge" */,
+				E11E89D62852BC9F0045FD2B /* XCRemoteSwiftPackageReference "Youi" */,
 			);
 			productRefGroup = E13B5562230F3D44009E143D /* Products */;
 			projectDirPath = "";
@@ -534,57 +537,62 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E10DA08527F6528200954442 /* XCRemoteSwiftPackageReference "Forge" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Hi-Rez/Forge";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		E10DA08B27F652B400954442 /* XCRemoteSwiftPackageReference "Youi" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Hi-Rez/Youi";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		E1921A2927F66FCC00107E3F /* XCRemoteSwiftPackageReference "Satin" */ = {
+		E11E89D02852BC2B0045FD2B /* XCRemoteSwiftPackageReference "Satin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Hi-Rez/Satin";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+		E11E89D32852BC690045FD2B /* XCRemoteSwiftPackageReference "Forge" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Hi-Rez/Forge";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		E11E89D62852BC9F0045FD2B /* XCRemoteSwiftPackageReference "Youi" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Hi-Rez/Youi";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E10DA08627F6528200954442 /* Forge */ = {
+		E11E89D12852BC2B0045FD2B /* Satin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E10DA08527F6528200954442 /* XCRemoteSwiftPackageReference "Forge" */;
-			productName = Forge;
-		};
-		E10DA08C27F652B400954442 /* Youi */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E10DA08B27F652B400954442 /* XCRemoteSwiftPackageReference "Youi" */;
-			productName = Youi;
-		};
-		E10DA08E27F652C600954442 /* Forge */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E10DA08527F6528200954442 /* XCRemoteSwiftPackageReference "Forge" */;
-			productName = Forge;
-		};
-		E10DA09227F652C600954442 /* Youi */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E10DA08B27F652B400954442 /* XCRemoteSwiftPackageReference "Youi" */;
-			productName = Youi;
-		};
-		E1921A2A27F66FCC00107E3F /* Satin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E1921A2927F66FCC00107E3F /* XCRemoteSwiftPackageReference "Satin" */;
+			package = E11E89D02852BC2B0045FD2B /* XCRemoteSwiftPackageReference "Satin" */;
 			productName = Satin;
+		};
+		E11E89D42852BC690045FD2B /* Forge */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E89D32852BC690045FD2B /* XCRemoteSwiftPackageReference "Forge" */;
+			productName = Forge;
+		};
+		E11E89D72852BC9F0045FD2B /* Youi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E89D62852BC9F0045FD2B /* XCRemoteSwiftPackageReference "Youi" */;
+			productName = Youi;
+		};
+		E11E89D92852BD1C0045FD2B /* Satin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E89D02852BC2B0045FD2B /* XCRemoteSwiftPackageReference "Satin" */;
+			productName = Satin;
+		};
+		E11E89DB2852BD1C0045FD2B /* Forge */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E89D32852BC690045FD2B /* XCRemoteSwiftPackageReference "Forge" */;
+			productName = Forge;
+		};
+		E11E89DD2852BD1C0045FD2B /* Youi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E11E89D62852BC9F0045FD2B /* XCRemoteSwiftPackageReference "Youi" */;
+			productName = Youi;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

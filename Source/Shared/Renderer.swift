@@ -123,7 +123,6 @@ class Renderer: Forge.Renderer {
         setupParameters()
         
 #if os(iOS)
-        
         setupBackgroundScene()
         setupBackgroundRenderer()
         
@@ -178,6 +177,7 @@ class Renderer: Forge.Renderer {
         }.store(in: &cancellables)
     }
     
+#if os(iOS)
     func setupBackgroundScene() {
         videoMesh = Mesh(geometry: QuadGeometry(), material: VideoMaterial(pipelinesURL: pipelinesURL))
         videoMesh.preDraw = { [unowned self] renderEncoder in
@@ -193,6 +193,7 @@ class Renderer: Forge.Renderer {
         backgroundRenderer = Satin.Renderer(context: Context(device, 1, context.colorPixelFormat), scene: videoMesh, camera: OrthographicCamera())
         backgroundRenderer.label = "Background Renderer"
     }
+#endif
     
     // MARK: - Deinit
     

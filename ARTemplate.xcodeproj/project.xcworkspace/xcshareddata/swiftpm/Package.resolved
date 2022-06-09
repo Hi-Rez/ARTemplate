@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Hi-Rez/Forge",
       "state" : {
-        "branch" : "master",
-        "revision" : "50407c40b433cf6eed786dc497b53916203f24bd"
+        "revision" : "e61337ea21590723f03822d290b28a494b9ef7dd",
+        "version" : "1.4.0"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Hi-Rez/Satin",
       "state" : {
-        "branch" : "master",
-        "revision" : "c29677b9e7217c66511998fff10b72a00204f76a"
+        "revision" : "d87dc84616dec77b62c71e05782a5001a57b497e",
+        "version" : "2.1.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Hi-Rez/Youi",
       "state" : {
-        "branch" : "master",
-        "revision" : "8661b8f925d7af173fac62be51f88148d5c00d60"
+        "revision" : "eb63bdb47c95eda8369f4c5885272e2726867732",
+        "version" : "4.1.0"
       }
     }
   ],
